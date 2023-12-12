@@ -1,16 +1,18 @@
 package com.example.A;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Scanner;
 
 @Service
+@RequiredArgsConstructor
 public class KafkaProducerService {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Widget> kafkaTemplate2;
+
 
     public void sendMessage(String msg) {
         try {
@@ -20,16 +22,15 @@ public class KafkaProducerService {
         }
     }
 
-    public void produceMessage() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.print("Enter a message to send to Kafka: ");
-            String message = scanner.nextLine();
-            if(message.equals("exit")) {
-                System.exit(0);
-            }
-            sendMessage(message);
-            System.out.println("Message sent to Kafka: " + message);
+    public void sendMessageTone(Widget widget) {
+
+        try{
+            kafkaTemplate2.send("t1",widget);
+            System.out.println("Message sent to Kafka topic t1: " + widget);
+        } catch (Exception e) {
+            System.err.println("Failed to send message: " + e.getMessage());
         }
     }
+
+
 }
