@@ -11,10 +11,6 @@
         <module name="B" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="A" target="17" />
-      <module name="B" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

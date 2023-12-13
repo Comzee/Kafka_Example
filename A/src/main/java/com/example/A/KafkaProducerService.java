@@ -1,18 +1,18 @@
 package com.example.A;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-
 @Service
-@RequiredArgsConstructor
 public class KafkaProducerService {
-
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaTemplate<String, Widget> kafkaTemplate2;
 
+    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate, KafkaTemplate<String, Widget> kafkaTemplate2) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaTemplate2 = kafkaTemplate2;
+    }
 
     public void sendMessage(String msg) {
         try {
@@ -31,6 +31,4 @@ public class KafkaProducerService {
             System.err.println("Failed to send message: " + e.getMessage());
         }
     }
-
-
 }
