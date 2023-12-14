@@ -22,3 +22,15 @@ services:
       KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+  kafka_manager:
+    image: ghcr.io/eshepelyuk/dckr/cmak-3.0.0.5:latest
+    container_name: kakfa-manager
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
