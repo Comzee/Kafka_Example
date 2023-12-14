@@ -1,16 +1,17 @@
-package com.example.A;
+package com.example.A.services;
 
+import com.example.A.models.Widget;
 
 import java.util.Random;
 
 public class WidgetCreator {
 
+    private static final Random random = new Random();
 
     public static Widget createWidgets() {
         Widget widgetRan = new Widget();
-        Random random = new Random();
 
-        widgetRan.setNum(random.nextInt(11)); // Generates a random number between 0 and 10
+        widgetRan.setNum(random.nextInt(11));
         widgetRan.setFruit(getRandomFruit());
         widgetRan.setLetter(getRandomLowerCaseLetter());
 
@@ -19,12 +20,10 @@ public class WidgetCreator {
 
     private static String getRandomFruit() {
         String[] fruits = {"Apple", "Banana", "Orange", "Grapes", "Strawberry", "Kiwi", "Mango"};
-        Random random = new Random();
         return fruits[random.nextInt(fruits.length)];
     }
 
-    private static char getRandomLowerCaseLetter() {
-        Random random = new Random();
-        return (char) (random.nextInt(26) + 'a'); // Generates a random lowercase letter (a-z)
+    private static String getRandomLowerCaseLetter() {
+        return String.valueOf((char) (random.nextInt(26) + 'a'));
     }
 }

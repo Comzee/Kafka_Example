@@ -1,7 +1,6 @@
-package com.example.A;
+package com.example.A.streams;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import com.example.A.models.Widget;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -17,14 +16,14 @@ import org.springframework.kafka.support.serializer.JsonSerde;
 import java.util.Properties;
 
 @Configuration
-public class KafkaStreamsConfig {
+public class KafkaStreamsBuilder {
 
     @Bean
     public KafkaStreams kafkaStreamsCustom(){
 
         Properties settings = new Properties();
-        settings.put(StreamsConfig.APPLICATION_ID_CONFIG, "app1");
-        settings.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        settings.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "app1");
+        settings.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
         StreamsBuilder builder = new StreamsBuilder();
 
@@ -32,7 +31,7 @@ public class KafkaStreamsConfig {
 
         KStream<String, Widget> source = builder.stream("t1", Consumed.with(Serdes.String(), widgetSerde));
 
-        KStream<String, Widget> filteredGreater = source.filter((key, widget) -> widget.getNum() < 5);
+        KStream<String, Widget> filteredLess = source.filter((key, widget) -> widget.getNum() < 5);
 
         KStream<String, Widget> filteredAndModified = source
                 .filter((key, widget) -> widget.getNum() >= 5)
@@ -41,11 +40,13 @@ public class KafkaStreamsConfig {
                     return widget;
                 });
 
-        filteredGreater.to("t2", Produced.with(Serdes.String(), widgetSerde));
+
+        filteredLess.to("t2", Produced.with(Serdes.String(), widgetSerde));
         filteredAndModified.to("t3", Produced.with(Serdes.String(), widgetSerde));
 
         final Topology topology = builder.build();
-        System.out.println(topology.describe());
+
+        //System.out.println(topology.describe());
 
         return new KafkaStreams(topology, settings);
     }

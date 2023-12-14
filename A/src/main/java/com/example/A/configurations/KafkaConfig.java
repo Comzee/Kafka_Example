@@ -1,4 +1,4 @@
-package com.example.A;
+package com.example.A.configurations;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
@@ -31,7 +31,7 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic topic1() {
-        return new NewTopic("t1", 1, (short) 1); // topic, partitions, replication factor
+        return new NewTopic("t1", 1, (short) 1);
     }
 
     @Bean

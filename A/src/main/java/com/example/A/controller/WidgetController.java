@@ -1,8 +1,8 @@
 package com.example.A.controller;
 
-import com.example.A.KafkaProducerService;
-import com.example.A.Widget;
-import com.example.A.WidgetCreator;
+import com.example.A.services.KafkaProducerService;
+import com.example.A.models.Widget;
+import com.example.A.services.WidgetCreator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,14 +19,14 @@ public class WidgetController {
 
     @GetMapping("/trigger-producer")
     public ResponseEntity<String> triggerProducer(@RequestParam String message) {
-        producerService.sendMessage(message);
+        producerService.sendMessageForTest(message);
         return ResponseEntity.ok("Message sent to Kafka: " + message);
     }
 
     @GetMapping("/widget")
     public ResponseEntity<String> createWidget() {
         Widget newWidget = WidgetCreator.createWidgets();
-        producerService.sendMessageTone(newWidget);
+        producerService.sendMessageForT(newWidget);
         return ResponseEntity.ok("Widget sent to Kafka topic t1 for Kafka Streams!");
     }
 }
